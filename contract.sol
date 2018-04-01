@@ -39,7 +39,7 @@ contract CPABE {
      */
     function giveAccess(bytes32 docId, address requester, bytes encKey) public {
         // Can implement signature checking
-        require(documents[docId].owner == msg.sender);
+        require(documents[docId].owner == msg.sender);  // check if call was made by owner himself
         access[docId][requester] = encKey;
     }
 
