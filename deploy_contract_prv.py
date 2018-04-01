@@ -4,6 +4,7 @@ from web3 import Web3, HTTPProvider
 w3 = Web3(HTTPProvider("http://localhost:7545"))
 w3.isConnected()
 
+candidates = ["Rama", "Nick", "John"]
 
 # Contract source code
 def main():
@@ -23,7 +24,7 @@ def main():
     # deploy contract
     tx_hash = contract.deploy(
         transaction={'from': w3.eth.accounts[0], 'gas': 410000},
-        args=[eth_utils.force_obj_to_bytes(["Rama", "Nick", "John"])]
+        args=[eth_utils.force_obj_to_bytes(candidates)]
     )
 
     # Get deployment receipt and get contract address from it
@@ -47,7 +48,12 @@ def get_votes(candidate="Rama"):
     import eth_utils
     return contract_instance.totalVotesFor(eth_utils.force_obj_to_bytes(candidate))
 
+def get_all_votes():
+    import eth_utils
+    return {key: value for (key, value) in map(lambda candidate: (candidate, get_votes(candidate)), candidates)}
 
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore")
-    main()
+
+main()
+# with warnings.catch_warnings():
+#     warnings.simplefilter("ignore")
+#     main()

@@ -29,3 +29,9 @@ Now to cast a vote type: `vote_for_candidate()`. This will cast a vote for "Rama
 To get the votes type: `get_votes()`. This will print the number of votes for "Rama".
 
 Open `ganache` to see the number of transactions which have occurred.
+
+### compiling contract to json
+Three things are needed : abi definition, byte representation, opcode representation
+1. install `solc` from [download solc](http://solidity.readthedocs.io/en/v0.4.21/installing-solidity.html)
+2. run: `solc --combined-json abi,bin,opcodes contract.sol > compiled_contract.json`
+3. To see json output more clearly do : `python -m json.tool compiled_contract.json`
