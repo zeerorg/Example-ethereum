@@ -43,4 +43,12 @@ contract CPABE {
         access[docId][requester] = encKey;
     }
 
+    /**
+     * Upload a new document
+     */
+    function newDocument(bytes32 docId, bytes encDoc) public {
+        documents[docId].owner = msg.sender;
+        documents[docId].data = encDoc;
+    }
+
 }

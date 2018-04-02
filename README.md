@@ -11,7 +11,7 @@ We need a test ethereum chain to communicate to it.
 You can use [Ganache](http://truffleframework.com/ganache/). It is a nice GUI tool to create and monitor a test ethereum chain.
 
 1. After starting test chain, execute: `pipenv run python`
-2. Type `from deploy_contract import *`, in the shell.
+2. Type `from src.cpabe_interact import *`.
 
 You might get a lot of warnings, ignore them for now.
 
@@ -22,16 +22,15 @@ Warning like :
 ```
 Can be ignored.
 
-If you get `1` in the end that means program executed successfully.
+If you get `connected` in the end that means the program executed successfully.
 
-Now to cast a vote type: `vote_for_candidate()`. This will cast a vote for "Rama". Available candidates are: "Nick, "Rama", "John"
-
-To get the votes type: `get_votes()`. This will print the number of votes for "Rama".
-
-Open `ganache` to see the number of transactions which have occurred.
+Open `ganache` to see that the contract has been deployed.
 
 ### compiling contract to json
 Three things are needed : abi definition, byte representation, opcode representation
 1. install `solc` from [download solc](http://solidity.readthedocs.io/en/v0.4.21/installing-solidity.html)
 2. run: `solc --combined-json abi,bin,opcodes contract.sol > compiled_contract.json`
 3. To see json output more clearly do : `python -m json.tool compiled_contract.json`
+
+## Tips:
+1. Decrease the cost of gas to lower value (maybe 20) in ganache.
