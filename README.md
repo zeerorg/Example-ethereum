@@ -34,3 +34,8 @@ Three things are needed : abi definition, byte representation, opcode representa
 
 ## Tips:
 1. Decrease the cost of gas to lower value (maybe 20) in ganache.
+
+## New web3 api
+The web3 python api was recently updated to match the web3 json api, this broke some things in the current project.
+1. Replace use of `eth_utils.force_obj_To_bytes` with `web3.utils.to_bytes` which takes positional argument `text` to convert text to bytes.
+2. `w3.eth.contract` now takes arguments with name i.e. to supply abi and address we do `w3.eth.contract(abi=som_abi, address=transaction_address, ContractFactoryClass=ContractClass)`
