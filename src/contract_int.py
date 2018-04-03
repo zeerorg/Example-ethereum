@@ -31,6 +31,6 @@ def main():
     contract_address = tx_receipt['contractAddress']
 
     # get main contract instance
-    contract_instance = w3.eth.contract(abi, contract_address, ContractFactoryClass=ConciseContract)
+    contract_instance = w3.eth.contract(abi=abi, address=contract_address, ContractFactoryClass=ConciseContract)
 
 main()
