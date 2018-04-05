@@ -1,4 +1,5 @@
-import eth_utils
+from web3 import utils
+from Crypto.PublicKey import RSA
 my_docs = {}
 
 def init_module(_w3, _contract):
@@ -16,18 +17,60 @@ functionality required :
 '''
 
 def uploadDoc():
-    document = 'some file'
-    encDoc = cpabe.encryptDoc(document)
+    document = './share.txt'
+    cpabe.gen_pair()
+    cpabe.encrypt_report(document)
+
+    with open('{}.cpabe'.format(document), 'rb') as f:
+        encDoc = f.read()
+
     docId = '00'+str(random.randint(0, 9))
-    contract_instance.newDocument(eth_utils.force_obj_to_bytes(docId),\
-                                    eth_utils.force_obj_to_bytes(encDoc),\
-                                    {'from': account})
-    # pass
+    contract_instance.newDocument(utils.encoding.to_bytes(text=docId),\
+                                    encDoc, {'from': account})
     my_docs[docId] = encDoc
+
+
+def download_doc(docId):
+    downloaded = contract_instance.getDocument(utils.encoding.to_bytes(text=docId), {'from': account})
+    # save the doc
+    with open("./{}.cpabe".format(docId), 'wb') as f:
+        f.write(downloaded)
+
+    # decrypt the doc
+    cpabe.dec_file(name, docId)
+    pass
+
+
+def download_key(docId):
+    encKey = contract_instance.getEncKey(utils.encoding.to_bytes(text=docId))
+    attr_key = key.decrypt(encKey)
+
+    with open("./key/{}_priv_key", 'w') as f:
+        f.write(attr_key)
+    pass
+
+# requester_address should be web3 account address
+def give_access(docId, requester_address, requester_pubkey, requester_name):
+    # generate attribute key
+    cpabe.gen_priv_key(name)
+
+    # encrypt attribute key
+    with open("./key/{}_priv_key".format(name)) as f:
+        key_to_put = f.read()
+
+    encKey = RSA.importKey(requester_pubkey).encrypt(key_to_put)[0]
+
+    # put attribute key to blockchain
+    contract_instance.giveAccess(utils.encoding.to_bytes(text=docId),\
+                                 requester_address,\
+                                 utils.encoding.to_bytes(text=encKey),
+                                 {'from': account})
+    pass
 
 
 if __name__ == '__main__':
     from src.cpabe_interact import *
 
 account = w3.eth.accounts[1]
-
+name = "rish"
+key = RSA.generate(2048)

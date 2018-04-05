@@ -1,6 +1,6 @@
 import subprocess
 import shlex
-
+import os
 '''
 functionality required : 
 1. generate a new key in "./key" directory and encrypt document using that key
@@ -9,8 +9,9 @@ functionality required :
 '''
 #initial cpabe_setup:: pub_key and master_key is generated
 def gen_pair():
-    subprocess.call(["mkdir", "./key"])
-    subprocess.call("./key/cpabe-setup")
+    if not os.path.exists("./key"):
+        subprocess.call(["mkdir", "./key"])
+    subprocess.call(shlex.split("cpabe-setup --output-public-key ./key/pub_key --output-master-key ./key/master_key"))
 
 #cpabe-keygen:: sara_priv_key will be generated
 # command_line = input()
@@ -31,8 +32,8 @@ def encrypt_report(file_name):
     subprocess.Popen(args1)
 
 #cpabe-dec:: security_report.pdf will be generated on successful decryption
-def dec_file(filename, attrkey)
-    command_line2 = "cpabe-dec ./key/pub_key ./key/{}  {}".format(attrkey, filename)
+def dec_file(filename, user):
+    command_line2 = "cpabe-dec ./key/pub_key ./key/{}_priv_key  {}.cpabe".format(user, filename)
     args2 = shlex.split(command_line2)
     print(args2)
     #tmp=subprocess.call(['cpabe-dec'  'pub_key' 'sara_priv_key' 'security_report.pdf.cpabe'])
