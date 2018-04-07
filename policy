@@ -1,0 +1,2 @@
+(sysadmin and (hire_date < 946702800 or security_team)) or
+    (business_staff and 2 of (executive_level >= 5, audit_group, strategy_team))

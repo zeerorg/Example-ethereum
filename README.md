@@ -26,6 +26,9 @@ If you get `connected` in the end that means the program executed successfully.
 
 Open `ganache` to see that the contract has been deployed.
 
+### Ganache cli
+While using [ganache-cli](https://github.com/trufflesuite/ganache-cli) pass parameters `--port 7545 -l 900000000`
+
 ### compiling contract to json
 Three things are needed : abi definition, byte representation, opcode representation
 1. install `solc` from [download solc](http://solidity.readthedocs.io/en/v0.4.21/installing-solidity.html)

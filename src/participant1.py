@@ -1,11 +1,14 @@
 from web3 import utils
 from Crypto.PublicKey import RSA
+from src import cpabe
+import random
 my_docs = {}
 
 def init_module(_w3, _contract):
-    global w3, contract_instance
+    global w3, contract_instance, account
     w3 = _w3
     contract_instance = _contract
+    account = w3.eth.accounts[1]
 
 '''
 functionality required : 
@@ -26,12 +29,12 @@ def uploadDoc():
 
     docId = '00'+str(random.randint(0, 9))
     contract_instance.newDocument(utils.encoding.to_bytes(text=docId),\
-                                    encDoc, {'from': account})
+                                    encDoc, transact={'from': account})
     my_docs[docId] = encDoc
 
 
 def download_doc(docId):
-    downloaded = contract_instance.getDocument(utils.encoding.to_bytes(text=docId), {'from': account})
+    downloaded = contract_instance.getDocument(utils.encoding.to_bytes(text=docId), transact={'from': account})
     # save the doc
     with open("./{}.cpabe".format(docId), 'wb') as f:
         f.write(downloaded)
@@ -42,7 +45,7 @@ def download_doc(docId):
 
 
 def download_key(docId):
-    encKey = contract_instance.getEncKey(utils.encoding.to_bytes(text=docId))
+    encKey = contract_instance.getEncKey(utils.encoding.to_bytes(text=docId), transact={'from': account})
     attr_key = key.decrypt(encKey)
 
     with open("./key/{}_priv_key", 'w') as f:
@@ -64,13 +67,12 @@ def give_access(docId, requester_address, requester_pubkey, requester_name):
     contract_instance.giveAccess(utils.encoding.to_bytes(text=docId),\
                                  requester_address,\
                                  utils.encoding.to_bytes(text=encKey),
-                                 {'from': account})
+                                 transact={'from': account})
     pass
 
 
 if __name__ == '__main__':
     from src.cpabe_interact import *
 
-account = w3.eth.accounts[1]
 name = "rish"
 key = RSA.generate(2048)
