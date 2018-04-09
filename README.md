@@ -37,6 +37,7 @@ Three things are needed : abi definition, byte representation, opcode representa
 
 ## Tips:
 1. Decrease the cost of gas to lower value (maybe 20) in ganache.
+2. Increase the gas limit if you are having running out of gas error.
 
 ## New web3 (4.0.0) api
 The web3 python api was recently updated to match the web3 json api, this broke some things in the current project.
@@ -53,3 +54,14 @@ The web3 python api was recently updated to match the web3 json api, this broke 
 6. If you get errors while compiling cpabe there might be semicolon missing in one of the files (yeah idk..)
 7. Ignore any warnings.
 8. Run: `cpabe-setup` to confirm that it is working.
+
+
+## Running a single participant test with contract and cpabe
+1. Start ganache
+2. Start Jupyter notebook by typing `pipenv run jupyter notebook`
+3. A browser window with jupyter will open
+4. Open `p1.ipynb` in the directory (it's not in the `src/` directory)
+5. Run the program. 
+To run the program and see output goto menu `Kernel` then select `Restart & Run All` and select the red box.
+
+If you have difficulty running the program, checkout some ipython or jupyter tutorial.
